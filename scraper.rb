@@ -33,7 +33,6 @@ def scrape_list(url)
   # puts JSON.pretty_generate json
   json[:deputes].each do |d|
     mp = d[:depute]
-
     data = { 
       id: mp[:id_an],
       name: mp[:nom],
@@ -50,6 +49,7 @@ def scrape_list(url)
       faction: mp[:groupe_sigle],
       website: mp[:url_an],
       identifier_nos_deputes: mp[:id],
+      identifier_assemblee_nationale: mp[:id_an],
       twitter: mp[:twitter],
       term: 14,
       source: mp[:url_nosdeputes_api],
