@@ -65,5 +65,5 @@ term = {
 }
 ScraperWiki.save_sqlite([:id], term, 'terms')
 
-@URL = 'http://www.nosdeputes.fr/deputes/json'
+@URL = 'https://www.nosdeputes.fr/deputes/json'
 scrape_list(@URL)
