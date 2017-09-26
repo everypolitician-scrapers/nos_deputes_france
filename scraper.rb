@@ -30,7 +30,7 @@ end
 
 def scrape_list(url)
   json = json_from(url)
-  json[:deputes].each do |d|
+  json[:deputes].map do |d|
     mp = d[:depute]
     data = {
       id:                             mp[:id_an],
@@ -53,10 +53,11 @@ def scrape_list(url)
       term:                           14,
       source:                         mp[:url_nosdeputes_api],
     }
-    puts data.reject { |_, v| v.to_s.empty? }.sort_by { |k, _| k }.to_h if ENV['MORPH_DEBUG']
-    ScraperWiki.save_sqlite(%i[id term], data)
   end
 end
 
-@URL = 'https://www.nosdeputes.fr/deputes/json'
-scrape_list(@URL)
+data = scrape_list 'https://www.nosdeputes.fr/deputes/json'
+data.each { |mem| puts mem.reject { |_, v| v.to_s.empty? }.sort_by { |k, _| k }.to_h } if ENV['MORPH_DEBUG']
+
+ScraperWiki.sqliteexecute('DROP TABLE data') rescue nil
+ScraperWiki.save_sqlite(%i[id term], data)
